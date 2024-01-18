@@ -4,8 +4,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import SignIn from "./SignIn";
 import LogOut from "./LogOut";
 const style = {
-  nav: "bg-gray-800 h-20 flex justify-between item-center p-4",
-  heading: "text-white text-3xl",
+  nav: `bg-gray-800 h-20 flex sticky top-0 z-10 justify-between items-center p-4`,
+  heading: `text-white text-3xl`,
 };
 
 const Navbar = () => {
@@ -14,7 +14,8 @@ const Navbar = () => {
   return (
     <div className={style.nav}>
       <div className={style.heading}>ChatApp</div>
-      {user?<LogOut />: <SignIn />}
+      {user ? <LogOut /> : <SignIn />}
+     
       {/* <SignIn />
       <LogOut /> */}
     </div>

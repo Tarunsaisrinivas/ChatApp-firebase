@@ -1,17 +1,19 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { deleteDoc, doc } from "firebase/firestore";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
 const style = {
-  message:
-    "flex items-center shadow-xl m-4 py-2 px-3 rounded-tl-full rounded-tr-full",
-  name: "absolute mt-[-4rem] text-gray-600 text-xs",
-  sent: "bg-[#395dff] text-white flex-row-reverse text-end float-right rounded-bl-full",
-  received: "bg-[#e5e5ea] text-black float-left rounded-br-full",
+  message: `flex items-center  shadow-xl m-4 py-2 px-3 rounded-tl-full rounded-tr-full`,
+  name: `absolute mt-[-4rem] text-gray-600 text-xs`,
+  sent: `bg-[#395dff] text-white flex-row-reverse text-end float-right rounded-bl-full`,
+  received: `bg-[#e5e5ea] text-black float-left rounded-br-full`,
 };
-
 const Message = ({ message }) => {
+  useEffect(() => {
+    AOS.init({ duration: 2000 });
+  }, []);
   const [user] = useAuthState(auth);
   const [pressTimer, setPressTimer] = useState(null);
   const pressThreshold = 1000; // Set your desired long press duration in milliseconds
@@ -61,22 +63,25 @@ const handleDeleteMessage = async () => {
   };
 
   return (
-    <div
-      className={`${style.message} ${messageClass}`}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-    >
-      <p className={style.name}>
-        {message.name} {formattedTimestamp}
-      </p>
-      <div className="visible sm:invisible ">
-        <ion-icon
-          name="trash-outline"
-          onClick={handleDeleteMessage}
-          ref={iconRef}
-        ></ion-icon>
+    <div className="" data-aos="zoom-in">
+      <div
+        className={`${style.message} ${messageClass}`}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+      >
+        <p className={style.name}>
+          {message.name} {formattedTimestamp}
+        </p>
+        {/* <img src={user.photoURL} alt="" className="w-6 h-6 rounded-full" /> */}
+        <div className="visible sm:invisible ">
+          <ion-icon
+            name="trash-outline"
+            onClick={handleDeleteMessage}
+            ref={iconRef}
+          ></ion-icon>
+        </div>
+        <p className="select-none ">{message.text}</p>
       </div>
-      <p className="select-none">{message.text}</p>
     </div>
   );
 };

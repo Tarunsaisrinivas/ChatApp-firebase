@@ -5,8 +5,9 @@ import {auth} from './firebase'
 import {useAuthState} from 'react-firebase-hooks/auth'
 
 const style = {
-  appContainer: "max-w-[768px] h-[90vh] mx-auto text-center overflow-y-scroll",
-  sectionContainer: "flex  flex-col bg-gray-100 shadow-xl border mt-10 relative",
+  appContainer: "max-w-[768px] h-auto mx-auto text-center overflow-y-scroll",
+  sectionContainer:
+    "flex  flex-col bg-gray-100 shadow-xl border mt-10 relative",
 };
 
 

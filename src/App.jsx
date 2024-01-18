@@ -5,9 +5,9 @@ import {auth} from './firebase'
 import {useAuthState} from 'react-firebase-hooks/auth'
 
 const style = {
-  appContainer: "max-w-[768px] h-auto mx-auto text-center overflow-y-scroll",
+  appContainer: "max-w-[768px] h-auto mx-auto text-center  ",
   sectionContainer:
-    "flex  flex-col bg-gray-100 shadow-xl border mt-10 relative",
+    "flex  flex-col bg-gray-100 shadow-xl border mt-10 relative ",
 };
 
 
@@ -20,6 +20,7 @@ const App = () => {
   return (
     <div className={style.appContainer}>
      <section className={style.sectionContainer}>
+
 <Navbar />
 {user?<Chat />:null}
 {/* <Chat /> */}

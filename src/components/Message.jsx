@@ -23,20 +23,27 @@ const Message = ({ message }) => {
       : `${style.received}`;
   const formattedTimestamp = message.timestamp?.toDate().toLocaleString();
 const handleDeleteMessage = async () => {
-  const confirmed = window.confirm(
-    "Do you really want to delete this message?"
-  );
+  // Check if the current user is the sender of the message
+  if (auth.currentUser.uid === message.uid) {
+    const confirmed = window.confirm(
+      "Do you really want to delete this message?"
+    );
 
-  if (confirmed) {
-    try {
-      const messageDocRef = doc(db, "messages", message.id);
-      await deleteDoc(messageDocRef);
-      console.log("Message deleted successfully");
-    } catch (error) {
-      console.error("Error deleting message", error);
+    if (confirmed) {
+      try {
+        const messageDocRef = doc(db, "messages", message.id);
+        await deleteDoc(messageDocRef);
+        console.log("Message deleted successfully");
+      } catch (error) {
+        console.error("Error deleting message", error);
+      }
     }
+  } else {
+    alert("You don't have permission to delete this message.");
+    // Optionally, show a message or perform some other action
   }
 };
+
 
   const handleMouseDown = () => {
     setPressTimer(

@@ -62,14 +62,14 @@ const handleDeleteMessage = async () => {
       <p className={style.name}>
         {message.name} {formattedTimestamp}
       </p>
-      <div className="invisible select-none">
+      <div className="invisible ">
         <ion-icon
           name="trash-outline"
           onClick={handleDeleteMessage}
           ref={iconRef}
         ></ion-icon>
       </div>
-      <p>{message.text}</p>
+      <p className="select-none">{message.text}</p>
     </div>
   );
 };

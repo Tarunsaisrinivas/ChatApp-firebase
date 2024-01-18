@@ -62,7 +62,7 @@ const handleDeleteMessage = async () => {
       <p className={style.name}>
         {message.name} {formattedTimestamp}
       </p>
-      <div className="invisible md:visible">
+      <div className="invisible select-none">
         <ion-icon
           name="trash-outline"
           onClick={handleDeleteMessage}

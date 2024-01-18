@@ -1,7 +1,8 @@
+import React, { useRef, useState } from "react";
+import { auth, db } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { deleteDoc, doc } from "firebase/firestore";
 
-import React from 'react'
-import {auth} from '../firebase'
-import { useAuthState } from 'react-firebase-hooks/auth';
 const style = {
   message:
     "flex items-center shadow-xl m-4 py-2 px-3 rounded-tl-full rounded-tr-full",
@@ -10,25 +11,67 @@ const style = {
   received: "bg-[#e5e5ea] text-black float-left rounded-br-full",
 };
 
-
-const Message = ({message}) => {
-
+const Message = ({ message }) => {
   const [user] = useAuthState(auth);
-  console.log(user);
-const messageClass = message.uid === auth.currentUser.uid ?`${style.sent}`:`${style.received}`
-    const formattedTimestamp = message.timestamp?.toDate().toLocaleString();
+  const [pressTimer, setPressTimer] = useState(null);
+  const pressThreshold = 1000; // Set your desired long press duration in milliseconds
+  const iconRef = useRef(null);
+
+  const messageClass =
+    message.uid === auth.currentUser.uid
+      ? `${style.sent}`
+      : `${style.received}`;
+  const formattedTimestamp = message.timestamp?.toDate().toLocaleString();
+const handleDeleteMessage = async () => {
+  const confirmed = window.confirm(
+    "Do you really want to delete this message?"
+  );
+
+  if (confirmed) {
+    try {
+      const messageDocRef = doc(db, "messages", message.id);
+      await deleteDoc(messageDocRef);
+      console.log("Message deleted successfully");
+    } catch (error) {
+      console.error("Error deleting message", error);
+    }
+  }
+};
+
+  const handleMouseDown = () => {
+    setPressTimer(
+      setTimeout(() => {
+        // On long press, do something
+        console.log("Long press detected!");
+        // For example, trigger the delete action
+        handleDeleteMessage();
+      }, pressThreshold)
+    );
+  };
+
+  const handleMouseUp = () => {
+    clearTimeout(pressTimer);
+  };
 
   return (
-    <div className={`${style.message} ${messageClass}`}>
+    <div
+      className={`${style.message} ${messageClass}`}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+    >
       <p className={style.name}>
         {message.name} {formattedTimestamp}
-        {/* {user.email} */}
       </p>
-      {/* <p className={style.timestamp}>{formattedTimestamp}</p> */}
+      <div className="hidden">
+        <ion-icon
+          name="trash-outline"
+          onClick={handleDeleteMessage}
+          ref={iconRef}
+        ></ion-icon>
+      </div>
       <p>{message.text}</p>
-      {/* <p>Im learning React</p> */}
     </div>
   );
-}
+};
 
-export default Message
+export default Message;

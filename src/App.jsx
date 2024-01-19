@@ -6,7 +6,7 @@ import {useAuthState} from 'react-firebase-hooks/auth'
 
 const style = {
   appContainer:
-    "max-w-2xl   mx-auto text-center  ",
+    "max-w-[728px]   mx-auto text-center  ",
   sectionContainer:
     "flex   flex-col bg-gray-100 shadow-xl border mt-10 relative ",
 };

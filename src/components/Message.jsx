@@ -5,8 +5,8 @@ import { deleteDoc, doc } from "firebase/firestore";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const style = {
-  message: `flex items-center   shadow-xl m-4 py-2 px-3 rounded-tl-full rounded-tr-full`,
-  name: `absolute mt-[-4rem] text-gray-600 text-xs`,
+  message: `flex items-center shadow-xl m-4 py-2 px-3 rounded-tl-full rounded-tr-full`,
+  name: `absolute mt-[-4rem] text-gray-600 text-xs flex m-auto gap-2`,
   sent: `bg-[#395dff] text-white flex-row-reverse text-end float-right rounded-bl-full`,
   received: `bg-[#e5e5ea] text-black float-left rounded-br-full`,
 };
@@ -63,16 +63,18 @@ const handleDeleteMessage = async () => {
   };
 
   return (
-    <div className="" data-aos="zoom-in">
+    <div className=" " data-aos="zoom-in">
       <div
         className={`${style.message} ${messageClass}`}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
       >
         <p className={style.name}>
-          {message.name} {formattedTimestamp}
+          <img src={message.profile} alt="" className="w-5 h-5 rounded-full " />
+          {message.name}
+          {formattedTimestamp}
         </p>
-        {/* <img src={user.photoURL} alt="" className="w-6 h-6 rounded-full" /> */}
+
         <div className="visible sm:invisible ">
           <ion-icon
             name="trash-outline"

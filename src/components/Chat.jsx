@@ -29,10 +29,9 @@ const Chat = () => {
   return (
     <>
       <main className={style.main}>
-        {messages &&
-          messages.map((message) => (
-            <Message key={message.id} message={message} />
-          ))}
+        {messages.map((message) => (
+          <Message key={message.id} message={message} />
+        ))}
       </main>
       {/* Send Message Compoenent */}
       <SendMessage scroll={scroll} />

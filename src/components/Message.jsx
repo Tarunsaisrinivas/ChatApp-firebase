@@ -21,30 +21,23 @@ const Message = ({ message }) => {
 
   const [user] = useAuthState(auth);
   const [pressTimer, setPressTimer] = useState(null);
-  const pressThreshold = 1000; // Set your desired long press duration in milliseconds
+  const pressThreshold = 1000;
   const iconRef = useRef(null);
 
-  const messageClass =
-    message.uid === auth.currentUser.uid
-      ? `${style.sent}`
-      : `${style.received}`;
+  // Determine the message class based on the sender's UID
+  const messageClass = message.uid === auth.currentUser.uid ? `${style.sent}` : `${style.received}`;
+
   const formattedTimestamp = message.timestamp?.toDate().toLocaleString();
 
-  // Function to decrypt the message for display
   const decryptMessage = (encryptedMessage) => {
-    // Use the same secret key for decryption as used for encryption
     const secretKey = 'YourSecretKeyHere';
     const bytes = CryptoJS.AES.decrypt(encryptedMessage, secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
   };
 
   const handleDeleteMessage = async () => {
-    // Check if the current user is the sender of the message
     if (auth.currentUser.uid === message.uid) {
-      const confirmed = window.confirm(
-        "Do you really want to delete this message?"
-      );
-
+      const confirmed = window.confirm("Do you really want to delete this message?");
       if (confirmed) {
         try {
           const messageDocRef = doc(db, "messages", message.id);
@@ -56,7 +49,6 @@ const Message = ({ message }) => {
       }
     } else {
       alert("You don't have permission to delete this message.");
-      // Optionally, show a message or perform some other action
     }
   };
 
@@ -85,7 +77,6 @@ const Message = ({ message }) => {
           {message.name}
           {formattedTimestamp}
         </p>
-
         <div className="visible sm:invisible ">
           <ion-icon
             name="trash-outline"
@@ -93,7 +84,6 @@ const Message = ({ message }) => {
             ref={iconRef}
           ></ion-icon>
         </div>
-        {/* Decrypt the message before displaying */}
         <p className="select-none ">{decryptMessage(message.text)}</p>
       </div>
     </div>

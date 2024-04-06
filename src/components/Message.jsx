@@ -1,3 +1,4 @@
+// Message component
 import React, { useEffect, useRef, useState } from "react";
 import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -29,14 +30,7 @@ const Message = ({ message }) => {
       : `${style.received}`;
   const formattedTimestamp = message.timestamp?.toDate().toLocaleString();
 
-  // Function to encrypt the message before sending to Firestore
-  const encryptMessage = (message) => {
-    // Use a secret key for encryption (Make sure to keep this secret key secure)
-    const secretKey = 'YourSecretKeyHere';
-    return CryptoJS.AES.encrypt(message, secretKey).toString();
-  };
-
-  // Function to decrypt the message before displaying
+  // Function to decrypt the message for display
   const decryptMessage = (encryptedMessage) => {
     // Use the same secret key for decryption as used for encryption
     const secretKey = 'YourSecretKeyHere';
